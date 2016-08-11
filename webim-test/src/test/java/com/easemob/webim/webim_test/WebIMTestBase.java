@@ -88,6 +88,8 @@ public class WebIMTestBase {
 			String configfile = getLocalConfigfile();
 			logger.info("Reconfig local configuration file: {}", configfile);
 			ConfigFileUtils.changeConfigFile(configfile, xmpp, urlapi, appkey);
+			logger.info("new configuration file: {}, value: {}", configfile, ConfigFileUtils.readFile(configfile));
+
 			baseUrl = getLocalBaseUrl();
 		} else {
 			if (StringUtils.isNotBlank(System.getProperty(PROPERTY_BASE_URL))) {
