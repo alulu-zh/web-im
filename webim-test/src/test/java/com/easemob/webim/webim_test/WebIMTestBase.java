@@ -57,18 +57,8 @@ public class WebIMTestBase {
 	protected boolean isGetBaseUrl = true;
 
 	public void init() {
-		System.out.println("print env!");
-		for (String key : System.getenv().keySet()) {
-			System.out.println("env="+key+", value="+System.getenv(key));
-		}
-		
-		System.out.println("print property!");
-		for (Object key : System.getProperties().keySet()) {
-			System.out.println("key="+key+", value="+System.getProperty((String)key));
-		}
-		System.out.println(Paths.get(System.getProperty("user.dir")).getParent().toAbsolutePath());
-		if (StringUtils.isNotBlank(System.getProperty(PROPERTY_CLUSTER))) {
-			cluster = System.getProperty(PROPERTY_CLUSTER);
+		if (StringUtils.isNotBlank(System.getenv(PROPERTY_CLUSTER))) {
+			cluster = System.getenv(PROPERTY_CLUSTER);
 		} else if (StringUtils.isNotBlank(System.getProperty(PROPERTY_INTERNAL_CLUSTER))) {
 			cluster = System.getProperty(PROPERTY_INTERNAL_CLUSTER);
 		}
@@ -76,20 +66,23 @@ public class WebIMTestBase {
 
 		if (Cluster.isLegalEnum(cluster)) {
 			logger.info("cluster: {} indecate local configuration file should be reconfigured", cluster);
-			if (StringUtils.isNotBlank(System.getProperty(PROPERTY_XMPP))) {
-				xmpp = System.getProperty(PROPERTY_XMPP);
+
+			if (StringUtils.isNotBlank(System.getenv(PROPERTY_XMPP))) {
+				xmpp = System.getenv(PROPERTY_XMPP);
 			} else if (StringUtils.isNotBlank(System.getProperty(PROPERTY_INTERNAL_XMPP))) {
 				xmpp = System.getProperty(PROPERTY_INTERNAL_XMPP);
 			}
 			logger.info("Initial xmpp: {}", xmpp);
-			if (StringUtils.isNotBlank(System.getProperty(PROPERTY_URLAPI))) {
-				urlapi = System.getProperty(PROPERTY_URLAPI);
+
+			if (StringUtils.isNotBlank(System.getenv(PROPERTY_URLAPI))) {
+				urlapi = System.getenv(PROPERTY_URLAPI);
 			} else if (StringUtils.isNotBlank(System.getProperty(PROPERTY_INTERNAL_URLAPI))) {
 				urlapi = System.getProperty(PROPERTY_INTERNAL_URLAPI);
 			}
 			logger.info("Initial urlapi: {}", urlapi);
-			if (StringUtils.isNotBlank(System.getProperty(PROPERTY_APPKEY))) {
-				appkey = System.getProperty(PROPERTY_APPKEY);
+
+			if (StringUtils.isNotBlank(System.getenv(PROPERTY_APPKEY))) {
+				appkey = System.getenv(PROPERTY_APPKEY);
 			} else if (StringUtils.isNotBlank(System.getProperty(PROPERTY_INTERNAL_APPKEY))) {
 				appkey = System.getProperty(PROPERTY_INTERNAL_APPKEY);
 			}
@@ -102,21 +95,23 @@ public class WebIMTestBase {
 
 			baseUrl = getLocalBaseUrl();
 		} else {
-			if (StringUtils.isNotBlank(System.getProperty(PROPERTY_BASE_URL))) {
-				baseUrl = System.getProperty(PROPERTY_BASE_URL);
+			if (StringUtils.isNotBlank(System.getenv(PROPERTY_BASE_URL))) {
+				baseUrl = System.getenv(PROPERTY_BASE_URL);
 			} else if (StringUtils.isNotBlank(System.getProperty(PROPERTY_INTERNAL_BASE_URL))) {
 				baseUrl = System.getProperty(PROPERTY_INTERNAL_BASE_URL);
 			}
 		}
 		logger.info("Initial base url: {}", baseUrl);
-		if (StringUtils.isNotBlank(System.getProperty(PROPERTY_USER_NAME))) {
-			username = System.getProperty(PROPERTY_USER_NAME);
+
+		if (StringUtils.isNotBlank(System.getenv(PROPERTY_USER_NAME))) {
+			username = System.getenv(PROPERTY_USER_NAME);
 		} else if (StringUtils.isNotBlank(System.getProperty(PROPERTY_INTERNAL_USER_NAME))) {
 			username = System.getProperty(PROPERTY_INTERNAL_USER_NAME);
 		}
 		logger.info("Initial username: {}", username);
-		if (StringUtils.isNotBlank(System.getProperty(PROPERTY_USER_PASSWORD))) {
-			password = System.getProperty(PROPERTY_USER_PASSWORD);
+
+		if (StringUtils.isNotBlank(System.getenv(PROPERTY_USER_PASSWORD))) {
+			password = System.getenv(PROPERTY_USER_PASSWORD);
 		} else if (StringUtils.isNotBlank(System.getProperty(PROPERTY_INTERNAL_USER_PASSWORD))) {
 			password = System.getProperty(PROPERTY_INTERNAL_USER_PASSWORD);
 		}
