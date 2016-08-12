@@ -385,7 +385,7 @@ public class WebIMTestBase {
 	}
 
 	private String getLocalConfigfile() {
-		return "file://" + Paths.get(System.getProperty("user.dir")).getParent().toAbsolutePath()
+		return Paths.get(System.getProperty("user.dir")).getParent().toAbsolutePath()
 				+ System.getProperty("file.separator") + "static" + System.getProperty("file.separator") + "js"
 				+ System.getProperty("file.separator") + "easemob.im.config.js";
 	}
