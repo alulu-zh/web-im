@@ -111,12 +111,6 @@ public class WebIMTestBase {
 			password = System.getProperty(PROPERTY_INTERNAL_USER_PASSWORD);
 		}
 		logger.info("Initial password: {}", password);
-		if (StringUtils.isNotBlank(System.getProperty(PROPERTY_USER_PASSWORD))) {
-			password = System.getProperty(PROPERTY_USER_PASSWORD);
-		} else if (StringUtils.isNotBlank(System.getProperty(PROPERTY_INTERNAL_USER_PASSWORD))) {
-			password = System.getProperty(PROPERTY_INTERNAL_USER_PASSWORD);
-		}
-		logger.info("Initial password: {}", password);
 	}
 
 	public void login(WebDriver driver, String username, String password, String path, boolean isGetBaseUrl) {
