@@ -57,6 +57,16 @@ public class WebIMTestBase {
 	protected boolean isGetBaseUrl = true;
 
 	public void init() {
+		System.out.println("print env!");
+		for (String key : System.getenv().keySet()) {
+			System.out.println("env="+key+", value="+System.getenv(key));
+		}
+		
+		System.out.println("print property!");
+		for (Object key : System.getProperties().keySet()) {
+			System.out.println("key="+key+", value="+System.getProperty((String)key));
+		}
+		System.out.println(Paths.get(System.getProperty("user.dir")).getParent().toAbsolutePath());
 		if (StringUtils.isNotBlank(System.getProperty(PROPERTY_CLUSTER))) {
 			cluster = System.getProperty(PROPERTY_CLUSTER);
 		} else if (StringUtils.isNotBlank(System.getProperty(PROPERTY_INTERNAL_CLUSTER))) {
