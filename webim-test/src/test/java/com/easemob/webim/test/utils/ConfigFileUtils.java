@@ -23,7 +23,7 @@ public class ConfigFileUtils {
 		Path path = Paths.get(filename);
 		StringBuffer sb = new StringBuffer();
 		try (Stream<String> lines = Files.lines(path)) {
-			lines.forEach(s -> sb.append(s).append(System.getProperty("line.separator")));
+			lines.forEachOrdered(s -> sb.append(s).append(System.getProperty("line.separator")));
 		} catch (Exception e) {
 			throw new WebIMAutoTestException("Failed to read file: " + filename,e);
 		}
@@ -33,7 +33,7 @@ public class ConfigFileUtils {
 	public static void writeFile(String filename, StringBuffer sb) {
 		try {
 			logger.info("write file: {} with string: {}", filename, sb.toString());
-			Files.write(Paths.get(filename), sb.toString().getBytes(), StandardOpenOption.WRITE);
+			Files.write(Paths.get(filename), sb.toString().getBytes("utf-8"), StandardOpenOption.WRITE);
 		} catch (IOException e) {
 			throw new WebIMAutoTestException("Failed to write file: " + filename,e);
 		}
@@ -65,5 +65,12 @@ public class ConfigFileUtils {
 			return line.replaceAll("\".*\",", "\"" + appkey + "\",");
 		}
 		return line;
+	}
+	
+	public static void main(String[] args) {
+		String filename = "/Users/zhouhu/Documents/workspace/easemob/web-im/static/js/temp.js";
+		ConfigFileUtils.changeConfigFile(filename, "xmpp.zhouhu", "a1.zhouhu.com", "zhou#hu");
+		StringBuffer sb = ConfigFileUtils.readFile(filename);
+		System.out.println("str = " + sb.toString());
 	}
 }
