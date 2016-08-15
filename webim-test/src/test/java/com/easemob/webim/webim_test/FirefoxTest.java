@@ -30,6 +30,8 @@ public class FirefoxTest extends WebIMTestBase {
 	private String imgPath = "src/main/resources/test_img.png";
 	private String audioPath = "src/main/resources/test_audio.mp3";
 	private String filePath = "src/main/resources/test_file.txt";
+	private String gID;
+	private String cID;
 
 	public static String IMG_TYPE = "img";
 	public static String AUDIO_TYPE = "audio";
@@ -318,7 +320,7 @@ public class FirefoxTest extends WebIMTestBase {
 	@Test(enabled = true, dependsOnMethods = { "sendOffLineFile" })
 	public void receiveOffLineFile() {
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
-		driver2 = new FirefoxDriver();
+		driver2 = new ChromeDriver();
 		super.login(driver2, username2, password2, path, true);
 		logger.info("find special friend: {}", username);
 		findSpecialFriend(driver2, username, path);
@@ -338,6 +340,8 @@ public class FirefoxTest extends WebIMTestBase {
 
 	@Test(enabled = true, dependsOnMethods = { "receiveOffLineFile" }, priority = 100)
 	public void getGroupList() {
+//		username2="webim002";
+//		password2="asd";
 		logger.info("get group list");
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
 		String xpath = "//ul[@id='contracgrouplistUL']";
@@ -348,10 +352,13 @@ public class FirefoxTest extends WebIMTestBase {
 
 	@Test(enabled = true, dependsOnMethods = { "getGroupList" })
 	public void sendGroupMessage() {
+//		username2="webim002";
+//		password2="asd";
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
 		logger.info("select first group to send message");
 		WebElement ele = findSpecialGroup(driver, null, path);
 		String groupId = ele.getAttribute("id");
+		gID=groupId;
 		logger.info("find text area for send message");
 		String xpath = "//textarea[@id='talkInputId']";
 		ele = findElement(driver, xpath, path);
@@ -367,8 +374,69 @@ public class FirefoxTest extends WebIMTestBase {
 		logger.info("Check group message: {} has been send", msg);
 		checkChatMsg(driver, username, groupId, msg, path);
 	}
-
+	
 	@Test(enabled = true, dependsOnMethods = { "sendGroupMessage" })
+	public void receiveGroupMessage() {
+//		username2="webim002";
+//		password2="asd";
+		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
+		driver2 = new ChromeDriver();
+		super.login(driver2, username2, password2, path, true);
+		logger.info("find special group: {}", gID);
+		findSpecialGroup(driver2, gID, path);
+		checkChatMsg(driver2, username2, gID, msg, path);
+		logger.info("quit driver");
+		if (null != driver2) {
+			try {
+				driver2.quit();
+			} catch (Exception e) {
+				logger.error("Failed to quit driver2:", e);
+			}
+		}
+	} 
+
+	@Test(enabled = true, dependsOnMethods = { "receiveGroupMessage" })
+	public void sendGroupImg() {
+//		username2="webim002";
+//		password2="asd";
+		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
+		logger.info("find special group: {}", gID);
+		findSpecialGroup(driver, gID, path);
+		logger.info("send image file: {} to Group: {}", imgPath, gID);
+		String[] sp = imgPath.split("/");
+		String fp = sp[sp.length - 1];
+		String data_type = "img";
+		sendFile(driver, imgPath, data_type, path);
+		sleep(3);
+		logger.info("Check image file: {} has been send", imgPath);
+		checkChatMsg(driver, username, gID, fp, path);
+	}
+
+	@Test(enabled = true, dependsOnMethods = { "sendGroupImg" })
+	public void receiveGroupImg() {
+//		username2="webim002";
+//		password2="asd";
+		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
+		driver2 = new ChromeDriver();
+		super.login(driver2, username2, password2, path, true);
+		logger.info("find special group: {}", gID);
+		findSpecialGroup(driver2, gID, path);
+		String[] sp = imgPath.split("/");
+		String fp = sp[sp.length - 1];
+		logger.info("Check image file: {} has been received", imgPath);
+		checkChatMsg(driver2, username2, gID, fp, path);
+		logger.info("quit driver");
+		if (null != driver2) {
+			try {
+				driver2.quit();
+			} catch (Exception e) {
+				logger.error("Failed to quit driver2:", e);
+			}
+		}
+	}
+	
+	
+	@Test(enabled = true, dependsOnMethods = { "receiveGroupImg" })
 	public void getChatroomList() {
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
 		logger.info("get chatroom list");
@@ -390,6 +458,7 @@ public class FirefoxTest extends WebIMTestBase {
 		logger.info("select first chatroom to send message");
 		WebElement ele = findSpecialChatroom(driver, null, path);
 		String chatroomId = ele.getAttribute("id");
+		cID=chatroomId;
 		logger.info("find text area for send message");
 		String xpath = "//textarea[@id='talkInputId']";
 		ele = findElement(driver, xpath, path);
@@ -405,8 +474,28 @@ public class FirefoxTest extends WebIMTestBase {
 		// logger.info("Check chatroom message: {} has been send", msg);
 		// checkChatMsg(driver, username, chatroomId, msg, path);
 	}
-
+	
 	@Test(enabled = true, dependsOnMethods = { "sendchatmessage" })
+	public void receiveChatroomMessage() {
+		username2="webim002";
+		password2="asd";
+		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
+		driver2 = new ChromeDriver();
+		super.login(driver2, username2, password2, path, true);
+		logger.info("find special group: {}", cID);
+		findSpecialChatroom(driver2, cID, path);
+		checkChatMsg(driver2, username2, cID, msg, path);
+		logger.info("quit driver");
+		if (null != driver2) {
+			try {
+				driver2.quit();
+			} catch (Exception e) {
+				logger.error("Failed to quit driver2:", e);
+			}
+		}
+	} 
+
+	@Test(enabled = false, dependsOnMethods = { "sendchatmessage" })
 	public void deleteUser() {
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
 		super.login(driver, username, password, path, isGetBaseUrl);
@@ -433,7 +522,7 @@ public class FirefoxTest extends WebIMTestBase {
 		sleep(5);
 	}
 
-	@Test(enabled = true, dependsOnMethods = { "deleteUser" }, priority = 100)
+	@Test(enabled = true, dependsOnMethods = { "receiveChatroomMessage" }, priority = 100)
 	public void logoutWebIM() {
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
 		super.logout(driver, path);

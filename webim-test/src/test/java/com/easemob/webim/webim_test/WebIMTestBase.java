@@ -159,7 +159,7 @@ public class WebIMTestBase {
 		}
 		Assert.assertNotNull(login);
 		login.click();
-		sleep(10);
+		sleep(3);
 
 		logger.info("check if login webim successfully");
 		// xpath = "//a[@id='accordion1']";
@@ -333,7 +333,7 @@ public class WebIMTestBase {
 			xpath = "//ul[@id='contracgrouplistUL']/li[1]";
 		}
 		ele = findElement(driver, xpath, path);
-		if (!StringUtils.isNotBlank(ele.getAttribute("style"))) {
+		if (!StringUtils.isNotBlank(ele.getAttribute("style"))||!StringUtils.isBlank(ele.getAttribute("joined"))) {
 			ele.click();
 			sleep(1);
 		}
