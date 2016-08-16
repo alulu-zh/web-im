@@ -333,7 +333,7 @@ public class WebIMTestBase {
 			xpath = "//ul[@id='contracgrouplistUL']/li[1]";
 		}
 		ele = findElement(driver, xpath, path);
-		if (!StringUtils.isNotBlank(ele.getAttribute("style"))||!StringUtils.isBlank(ele.getAttribute("joined"))) {
+		if (!ele.getAttribute("style").equals("background-color: rgb(51, 204, 255);")) {
 			ele.click();
 			sleep(1);
 		}
