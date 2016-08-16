@@ -5,7 +5,6 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,8 +40,7 @@ public class FirefoxTest extends WebIMTestBase {
 	public void beforeClass() {
 		logger.info("Start to webim auto test on firefox...");
 		init();
-		System.setProperty("webdriver.chrome.driver","C:/Program Files (x86)/apache-maven-3.3.9-bin/chromedriver_win32/chromedriver.exe");
-		driver = new ChromeDriver();
+		driver = new FirefoxDriver();
 	}
 
 	@Test(enabled = true, priority = -100)
@@ -134,7 +132,7 @@ public class FirefoxTest extends WebIMTestBase {
 	@Test(enabled = true, dependsOnMethods = { "getFriendList" })
 	public void loginWebIMWithNewUser() {
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
-		driver2 = new ChromeDriver();
+		driver2 = new FirefoxDriver();
 		super.login(driver2, username2, password2, path, true);
 	}
 
@@ -184,7 +182,7 @@ public class FirefoxTest extends WebIMTestBase {
 	@Test(enabled = true, dependsOnMethods = { "sendOffLineMsg" })
 	public void receiveOffLineMsg() {
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
-		driver2 = new ChromeDriver();
+		driver2 = new FirefoxDriver();
 		super.login(driver2, username2, password2, path, true);
 		logger.info("find special friend: {}", username);
 		findSpecialFriend(driver2, username, path);
@@ -248,7 +246,7 @@ public class FirefoxTest extends WebIMTestBase {
 	@Test(enabled = true, dependsOnMethods = { "sendOffLineImg" })
 	public void receiveOffLineImg() {
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
-		driver2 = new ChromeDriver();
+		driver2 = new FirefoxDriver();
 		super.login(driver2, username2, password2, path, true);
 		logger.info("find special friend: {}", username);
 		findSpecialFriend(driver2, username, path);
@@ -284,7 +282,7 @@ public class FirefoxTest extends WebIMTestBase {
 	@Test(enabled = true, dependsOnMethods = { "sendOffLineAudio" })
 	public void receiveOffLineAudio() {
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
-		driver2 = new ChromeDriver();
+		driver2 = new FirefoxDriver();
 		super.login(driver2, username2, password2, path, true);
 		logger.info("find special friend: {}", username);
 		findSpecialFriend(driver2, username, path);
@@ -320,7 +318,7 @@ public class FirefoxTest extends WebIMTestBase {
 	@Test(enabled = true, dependsOnMethods = { "sendOffLineFile" })
 	public void receiveOffLineFile() {
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
-		driver2 = new ChromeDriver();
+		driver2 = new FirefoxDriver();
 		super.login(driver2, username2, password2, path, true);
 		logger.info("find special friend: {}", username);
 		findSpecialFriend(driver2, username, path);
