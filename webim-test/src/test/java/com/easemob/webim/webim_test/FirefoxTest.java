@@ -39,8 +39,8 @@ public class FirefoxTest extends WebIMTestBase {
 	public void beforeClass() {
 		logger.info("Start to webim auto test on firefox...");
 		init();
-		System.setProperty("webdriver.chrome.driver","C:/Program Files (x86)/apache-maven-3.3.9-bin/chromedriver_win32/chromedriver.exe");
-		driver = new ChromeDriver();
+//		System.setProperty("webdriver.chrome.driver","C:/Program Files (x86)/apache-maven-3.3.9-bin/chromedriver_win32/chromedriver.exe");
+		driver = new FirefoxDriver();
 	}
 
 	@Test(enabled = true, groups = { "sanity_test" }, priority = -100)
@@ -136,7 +136,7 @@ public class FirefoxTest extends WebIMTestBase {
 	@Test(enabled = true, groups = { "sanity_test" }, dependsOnMethods = { "getFriendList" })
 	public void loginWebIMWithNewUser() {
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
-		driver2 = new ChromeDriver();
+		driver2 = new FirefoxDriver();
 		super.login(driver2, username2, password2, path, true);
 	}
 
@@ -170,17 +170,18 @@ public class FirefoxTest extends WebIMTestBase {
 		WebElement ele = findSpecialFriend(driver, username2, path);
 		sleep(3);
 		logger.info("find message text area");
-		String xpath = "//*[@id='demo']/div/div/div[4]/div[3]/div[2]/textarea";
+		String xpath = "//div[@class='webim-chatwindow ']/div[@class='webim-send-wrapper']/textarea";
 		ele = findElement(driver, xpath, path);
 		msg = getRandomStr(10);
 		logger.info("talk to friend: {} with message: {}", username2, msg);
 		ele.clear();
 		ele.sendKeys(msg);
 		logger.info("send msg");
-		xpath = "//*[@id='demo']/div/div/div[4]/div[5]/div[2]/button";
+		xpath = "//div[@class='webim-chatwindow ']/div[@class='webim-send-wrapper']/button[@class='webim-button bg-color webim-send-btn base-bgcolor disabled']";
 		ele = findElement(driver, xpath, path);
 		ele.click();
 		sleep(3);
+		logger.info("has send mesg");
 		checkChatMsg(driver, username, username2, msg, path);
 	}
 
@@ -203,13 +204,13 @@ public class FirefoxTest extends WebIMTestBase {
 		WebElement ele = findSpecialFriend(driver, username2, path);
 		sleep(3);
 		logger.info("find message text area");
-		String xpath = "//*[@id='demo']/div/div/div[4]/div[3]/div[2]/textarea";
+		String xpath = "//div[@class='webim-chatwindow ']/div[@class='webim-send-wrapper']/textarea";
 		ele = findElement(driver, xpath, path);
 		msg = getRandomStr(10);
 		logger.info("talk to friend: {} with message: {}", username2, msg);
 		ele.sendKeys(msg);
 		logger.info("send msg");
-		xpath = "//*[@id='demo']/div/div/div[4]/div[5]/div[2]/button";
+		xpath ="//div[@class='webim-chatwindow ']/div[@class='webim-send-wrapper']/button[@class='webim-button bg-color webim-send-btn base-bgcolor disabled']";
 		ele = findElement(driver, xpath, path);
 		ele.click();
 		sleep(3);
@@ -233,7 +234,7 @@ public class FirefoxTest extends WebIMTestBase {
 		}
 	}
 
-	@Test(enabled = true, groups = { "sanity_test" }, dependsOnMethods = { "receiveOnLineMsg" })
+	@Test(enabled = false, groups = { "sanity_test" }, dependsOnMethods = { "receiveOnLineMsg" })
 	public void sendOffLineImg() {
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
 		logger.info("find special friend: {}", username2);
@@ -248,7 +249,7 @@ public class FirefoxTest extends WebIMTestBase {
 		checkChatMsg(driver, username, username2, fp, path);
 	}
 
-	@Test(enabled = true, groups = { "sanity_test" }, dependsOnMethods = { "sendOffLineImg" })
+	@Test(enabled = false, groups = { "sanity_test" }, dependsOnMethods = { "sendOffLineImg" })
 	public void receiveOffLineImg() {
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
 		driver2 = new FirefoxDriver();
@@ -269,7 +270,7 @@ public class FirefoxTest extends WebIMTestBase {
 		}
 	}
 
-	@Test(enabled = true, groups = { "sanity_test" }, dependsOnMethods = { "receiveOffLineImg" })
+	@Test(enabled = false, groups = { "sanity_test" }, dependsOnMethods = { "receiveOffLineImg" })
 	public void sendOffLineAudio() {
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
 		logger.info("find special friend: {}", username2);
@@ -284,7 +285,7 @@ public class FirefoxTest extends WebIMTestBase {
 		checkChatMsg(driver, username, username2, fp, path);
 	}
 
-	@Test(enabled = true, groups = { "sanity_test" }, dependsOnMethods = { "sendOffLineAudio" })
+	@Test(enabled = false, groups = { "sanity_test" }, dependsOnMethods = { "sendOffLineAudio" })
 	public void receiveOffLineAudio() {
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
 		driver2 = new FirefoxDriver();
@@ -305,7 +306,7 @@ public class FirefoxTest extends WebIMTestBase {
 		}
 	}
 
-	@Test(enabled = true, groups = { "sanity_test" }, dependsOnMethods = { "receiveOffLineAudio" })
+	@Test(enabled = false, groups = { "sanity_test" }, dependsOnMethods = { "receiveOffLineAudio" })
 	public void sendOffLineFile() {
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
 		logger.info("find special friend: {}", username2);
@@ -320,7 +321,7 @@ public class FirefoxTest extends WebIMTestBase {
 		checkChatMsg(driver, username, username2, fp, path);
 	}
 
-	@Test(enabled = true, groups = { "sanity_test" }, dependsOnMethods = { "sendOffLineFile" })
+	@Test(enabled = false, groups = { "sanity_test" }, dependsOnMethods = { "sendOffLineFile" })
 	public void receiveOffLineFile() {
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
 		driver2 = new FirefoxDriver();
@@ -341,14 +342,14 @@ public class FirefoxTest extends WebIMTestBase {
 		}
 	}
 
-	@Test(enabled = true, groups = { "sanity_test" }, dependsOnMethods = { "receiveOffLineFile" }, priority = 100)
+	@Test(enabled = true, groups = { "sanity_test" }, dependsOnMethods = { "receiveOnLineMsg"  }, priority = 100)
 	public void getGroupList() {
 		logger.info("get group list");
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
-		String xpath = "//ul[@id='contracgrouplistUL']";
+		String xpath = "//div[@class='webim-contact-wrapper']";
 		WebElement ele = findElement(driver, xpath, path);
-		List<WebElement> li = ele.findElements(By.xpath("//li"));
-		Assert.assertTrue(null != li && li.size() > 0, "have found groups");
+		List<WebElement> li = ele.findElements(By.xpath("//div[2]/div"));
+		Assert.assertTrue(null != li && li.size() > 0, "hasn't found groups");
 	}
 
 	@Test(enabled = true, groups = { "sanity_test" }, dependsOnMethods = { "getGroupList" })
@@ -358,13 +359,12 @@ public class FirefoxTest extends WebIMTestBase {
 		WebElement ele = findSpecialGroup(driver, null, path);
 		String groupId = ele.getAttribute("id");
 		logger.info("find text area for send message");
-		String xpath = "//textarea[@id='talkInputId']";
+		String xpath = "//div[@class='webim-chatwindow ']/div[@class='webim-send-wrapper']/textarea";
 		ele = findElement(driver, xpath, path);
-		ele.click();
 		msg = "webim_test_sendgroupmessage" + getRandomStr(10);
 		ele.clear();
 		ele.sendKeys(msg);
-		xpath = "//img[@onclick='sendText()']";
+		xpath = "//div[@class='webim-chatwindow ']/div[2][@class='webim-send-wrapper']/button[@class='webim-button bg-color webim-send-btn base-bgcolor disabled']";
 		logger.info("click send button");
 		ele = findElement(driver, xpath, path);
 		ele.click();
@@ -377,15 +377,13 @@ public class FirefoxTest extends WebIMTestBase {
 	public void getChatroomList() {
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
 		logger.info("get chatroom list");
-		String xpath = "//a[@id='accordion4']";
+		String xpath = "//div[@id='chatrooms']";
 		WebElement ele = findElement(driver, xpath, path);
-		if (ele.getAttribute("class").equals("accordion-toggle collapsed")) {
-			ele.click();
-			sleep(1);
-		}
-		xpath = "//ul[@id='chatRoomListUL']";
+		ele.click();
+		sleep(1);
+		xpath = "//div[@class='webim-contact-wrapper']";
 		ele = findElement(driver, xpath, path);
-		List<WebElement> wes = ele.findElements(By.xpath("//li"));
+		List<WebElement> wes = ele.findElements(By.xpath("//div[3]/div"));
 		Assert.assertTrue(null != wes && wes.size() > 0, "have found chatrooms");
 	}
 
@@ -394,15 +392,15 @@ public class FirefoxTest extends WebIMTestBase {
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
 		logger.info("select first chatroom to send message");
 		WebElement ele = findSpecialChatroom(driver, null, path);
-		String chatroomId = ele.getAttribute("id");
+		//String chatroomId = ele.getAttribute("id");
 		logger.info("find text area for send message");
-		String xpath = "//textarea[@id='talkInputId']";
+		String xpath = "//div[@class='webim-chatwindow ']/div[@class='webim-send-wrapper']/textarea";
 		ele = findElement(driver, xpath, path);
 		ele.click();
 		msg = "webim_test_sendchatroommessage" + getRandomStr(10);
 		ele.clear();
 		ele.sendKeys(msg);
-		xpath = "//img[@onclick='sendText()']";
+		xpath = "//div[@class='webim-chatwindow ']/div[@class='webim-send-wrapper']/button[@class='webim-button bg-color webim-send-btn base-bgcolor disabled']";
 		logger.info("click send button");
 		ele = findElement(driver, xpath, path);
 		ele.click();
@@ -415,24 +413,24 @@ public class FirefoxTest extends WebIMTestBase {
 	public void deleteUser() {
 		String path = getScreenshotPath(Thread.currentThread().getStackTrace()[1].getMethodName());
 		super.login(driver, username, password, path, isGetBaseUrl);
-		logger.info("click delete friend button");
+		logger.info("click set button");
 		sleep(5);
-		String xpath = "//button[@class='btn btn-inverse dropdown-toggle'][@data-toggle='dropdown']";
+		String xpath = "//div[@class='webim-leftbar']/div[6]/i[@class='webim-operations-icon font xsmaller']";
 		WebElement ele = findElement(driver, xpath, path);
 		ele.click();
 		sleep(1);
-		xpath = "//ul[@class='dropdown-menu']/li[@onclick='showDelFriend()']";
+		xpath = "//ul[@class='webim-operations']/li[2]";
 		ele = findElement(driver, xpath, path);
 		ele.click();
 		sleep(3);
 		logger.info("input friend id: {}", username2);
-		xpath = "//input[@id='delfridentId']";
+		xpath = "//div[@class='webim-dialog']/div/input[@class='webim-input']";
 		ele = findElement(driver, xpath, path);
 		ele.clear();
 		ele.sendKeys(username2);
 		sleep(1);
 		logger.info("click delete button");
-		xpath = "//button[@id='delFridend']";
+		xpath =  "//div[@class='webim-friend-options']/div[2][@class='webim-dialog']/button[@class='webim-button bg-color webim-dialog-button']";
 		ele = findElement(driver, xpath, path);
 		ele.click();
 		sleep(5);

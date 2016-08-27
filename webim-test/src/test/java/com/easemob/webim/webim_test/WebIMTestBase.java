@@ -82,7 +82,7 @@ public class WebIMTestBase {
 		driver.manage().window().maximize();
 		sleep(5);
 		logger.info("find username box and input username: {}", username);
-		String xpath = "//*[@id='demo']/div/div/div[2]/input[1]";
+		String xpath = "//input[@type='text']";
 		WebElement usernameInput = findElementByXpath(driver, xpath);
 		if (null == usernameInput) {
 			screenshot(driver, getPath(path));
@@ -92,7 +92,7 @@ public class WebIMTestBase {
 		usernameInput.sendKeys(username);
 
 		logger.info("find password box and input password: {}", password);
-		xpath = "//*[@id='demo']/div/div/div[2]/input[2]";
+		xpath = "//input[@type='password']";
 		WebElement passwordInput = findElementByXpath(driver, xpath);
 		if (null == passwordInput) {
 			screenshot(driver, getPath(path));
@@ -102,7 +102,7 @@ public class WebIMTestBase {
 		passwordInput.sendKeys(password);
 
 		logger.info("click login button");
-		xpath = "//*[@id='demo']/div/div/div[2]/button";
+		xpath = "//button[@class='webim-button bg-color']";
 		WebElement login = findElementByXpath(driver, xpath);
 		if (null == login) {
 			screenshot(driver, getPath(path));
@@ -122,7 +122,7 @@ public class WebIMTestBase {
 	}
 
 	public WebElement checkLogin(WebDriver driver) {
-		String xpath = "//*[@id='demo']/div/div/div[4]/div[1]/div[1]/img";
+		String xpath = "//div[@id='friends']";
 		WebElement ele = null;
 		try {
 			ele = findElementByXpath(driver, xpath);
@@ -136,15 +136,13 @@ public class WebIMTestBase {
 	public WebElement findSpecialFriend(WebDriver driver, String username, String path) {
 		Preconditions.checkArgument(null != driver, "webdriver was missing");
 		Preconditions.checkArgument(StringUtils.isNotBlank(username), "friend name was missing!");
-		String xpath = "//*[@id='friends']/i[1]";
+		String xpath = "//div[@id='friends']";
 		WebElement ele = findElement(driver, xpath, path);
-		if (ele.getAttribute("class").equals("accordion-toggle collapsed")) {
-			ele.click();
-		}
+		ele.click();
 		sleep(3);
-		xpath = "//*[@id='"+username+"']";
+		xpath = "//div[@id='" + username + "']";
 		ele = findElement(driver, xpath, path);
-		if (!StringUtils.isNotBlank(ele.getAttribute("style"))) {
+		if (StringUtils.isNotBlank(ele.getAttribute("class"))) {
 			ele.click();
 		}
 		return ele;
@@ -157,14 +155,15 @@ public class WebIMTestBase {
 		Preconditions.checkArgument(StringUtils.isNotBlank(msg), "message was missing");
 		WebElement wet = checkLogin(driver);
 		Assert.assertTrue(null != wet && wet.isDisplayed(), "check login web page");
-		String xpath = "//div[@id='" + username1 + "-" + username2 + "']";
+		String xpath = "//div[@class='webim-chatwindow ']/div[@id='wrapper"+username2+"']";
 		WebElement ele = findElement(driver, xpath, path);
 		try {
-			List<WebElement> eles = ele.findElements(By.xpath("//p[@class='chat-content-p3']"));
+			List<WebElement> eles = ele.findElements(By.xpath("//pre"));
 			for (WebElement we : eles) {
 				if (we.getText().contains(msg)) {
 					logger.info("find message: {}", msg);
 					return;
+					
 				}
 			}
 			Assert.assertTrue(false,
@@ -204,16 +203,12 @@ public class WebIMTestBase {
 	public void logout(WebDriver driver, String path) {
 		Preconditions.checkArgument(null != driver, "webdriver was missing");
 		logger.info("click logout button");
-		String xpath = "//button[@class='btn btn-inverse dropdown-toggle'][@data-toggle='dropdown']";
+		String xpath = "//ul[@class='webim-operations']/li[3]";
 		WebElement ele = findElement(driver, xpath, path);
 		ele.click();
 		sleep(1);
-		xpath = "//li[@onclick='logout();']";
-		ele = findElement(driver, xpath, path);
-		ele.click();
-		sleep(3);
 		logger.info("find login button");
-		xpath = "//button[@class='flatbtn-blu'][@tabindex='4']";
+		xpath = "//div[@class='webim-sign']/button[@class='webim-button bg-color']";
 		findElement(driver, xpath, path);
 	}
 
@@ -269,21 +264,22 @@ public class WebIMTestBase {
 	
 	public WebElement findSpecialGroup(WebDriver driver, String groupId, String path) {
 		Preconditions.checkArgument(null != driver, "webdriver was missing");
-		String xpath = "//a[@id='accordion2']";
+		String xpath = "//div[@class='webim-leftbar']/div[3][@id='groups']";
 		WebElement ele = findElement(driver, xpath, path);
-		if (ele.getAttribute("class").equals("accordion-toggle collapsed")) {
+		ele.click();
+		if (ele.getAttribute("class").equals("webim-contact-item")){
 			ele.click();
 			sleep(1);
 		}
 		if (StringUtils.isNotBlank(groupId)) {
 			logger.info("select group: {}", groupId);
-			xpath = "//ul[@id='contracgrouplistUL']/li[@id='" + groupId + "']";
+			xpath = "//div[@class='webim-contact-wrapper']/div[2]/div[@id='" + groupId + "']";
 		} else {
 			logger.info("select first group");
-			xpath = "//ul[@id='contracgrouplistUL']/li[1]";
+			xpath = "//div[@class='webim-contact-wrapper']/div[2]/div[@class='webim-contact-item']";
 		}
 		ele = findElement(driver, xpath, path);
-		if (!StringUtils.isNotBlank(ele.getAttribute("style"))) {
+		if (StringUtils.isNotBlank(ele.getAttribute("id"))) {
 			ele.click();
 			sleep(1);
 		}
@@ -292,21 +288,21 @@ public class WebIMTestBase {
 	
 	public WebElement findSpecialChatroom(WebDriver driver, String chatroomId, String path) {
 		Preconditions.checkArgument(null != driver, "webdriver was missing");
-		String xpath = "//a[@id='accordion4']";
+		String xpath = "//*[@id='chatrooms']/i[1]";
 		WebElement ele = findElement(driver, xpath, path);
-		if (ele.getAttribute("class").equals("accordion-toggle collapsed")) {
+		if (ele.getAttribute("class").equals("webim-leftbar-icon font small")) {
 			ele.click();
 			sleep(1);
 		}
 		if (StringUtils.isNotBlank(chatroomId)) {
 			logger.info("select chatroom: {}", chatroomId);
-			xpath = "//ul[@id='chatRoomListUL']/li[@id='" + chatroomId + "']";
+			xpath = "//div[@class='webim-contact-wrapper']/div[3]/div[@id='" + chatroomId + "']";
 		} else {
 			logger.info("select first chatroom");
-			xpath = "//ul[@id='chatRoomListUL']/li[1]";
+			xpath = "//div[@class='webim-contact-wrapper']/div[3]/div[1]";
 		}
 		ele = findElement(driver, xpath, path);
-		if (!StringUtils.isNotBlank(ele.getAttribute("style"))) {
+		if (StringUtils.isNotBlank(ele.getAttribute("class"))) {
 			ele.click();
 			sleep(5);
 		}
