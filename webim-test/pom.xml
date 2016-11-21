@@ -132,8 +132,8 @@
 					<!-- <suiteXmlFiles> <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile> 
 						</suiteXmlFiles> -->
 					<systemPropertyVariables>
-						<INTERNAL_BASE_URL>http://webim.easemob.com/index.html</INTERNAL_BASE_URL>
-						<INTERNAL_USER_NAME>webim002</INTERNAL_USER_NAME>
+						<INTERNAL_BASE_URL>https://webim.sandbox.easemob.com/index.html</INTERNAL_BASE_URL>
+						<INTERNAL_USER_NAME>sdb001</INTERNAL_USER_NAME>
 						<INTERNAL_USER_PASSWORD>asd</INTERNAL_USER_PASSWORD>
 						<INTERNAL_USER_TOKEN></INTERNAL_USER_TOKEN>
 					</systemPropertyVariables>
