@@ -1,6 +1,7 @@
 package com.easemob.webim.webim_test;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -25,7 +26,9 @@ public class WebIMTestBase {
 	public static String PROPERTY_INTERNAL_USER_NAME = "INTERNAL_USER_NAME";
 	public static String PROPERTY_USER_PASSWORD = "USER_PASSWORD";
 	public static String PROPERTY_INTERNAL_USER_PASSWORD = "INTERNAL_USER_PASSWORD";
-
+	private static final String LOGIN_BUTTON_XPATH = "//div[@class='webim-sign']/button[@class='webim-button bg-color']";
+    private static final String SETTING_BUTTON_XPATH = "//div[@class='webim-chat']/div[@class='webim-leftbar']/div/i[@class='webim-operations-icon font xsmaller']";
+    private static final String RIGHT_SETTING_BUTTON_XPATH = "//div[@class='webim-chatwindow ']/div[2]/div/i[@class='webim-operations-icon font xsmaller']";
 	private static final Logger logger = LoggerFactory.getLogger(WebIMTestBase.class);
 
 	protected WebDriver driver;
@@ -120,6 +123,65 @@ public class WebIMTestBase {
 		}
 		Assert.assertNotNull(ele);
 	}
+	 public  WebElement inputText(WebDriver driver, String xpath, String text,String path) {
+	        WebElement element = findElement(driver, xpath, path);
+	        element.clear();
+	        element.sendKeys(text);
+	        return element;
+	    }
+	 public  WebElement checkGroupStyle(WebDriver driver,String style,String path){
+		    //	boolean isPublic=true;
+		    //	boolean needApprove=true;
+		    	//boolean memberInvite=true;
+		    	logger.info("here is checkgroupstyle {}!",style);
+		    	if (StringUtils.equals("ownerInvite", style)){
+		    		String xpath="//div/label[3]/span[text()='私有群']";
+		    		WebElement element = findElement(driver, xpath,path);
+		            element.click();
+		            xpath="//div/label[2]/span[text()='不允许邀请']";
+		    	    element = findElement(driver, xpath,path);
+		            element.click();
+		            logger.info("private group not allow member invite check success");
+		            return element;
+		            
+		    	}
+		    	else if(StringUtils.equals("memberInvite", style)){
+		    		String xpath="//div/label[3]/span[text()='私有群']";
+		    		WebElement element = findElement(driver, xpath,path);
+		            element.click();
+		            xpath="//div/label[3]/span[text()='允许']";
+		    	    element = findElement(driver, xpath,path);
+		            element.click();
+		            logger.info("private group allow member invite check success");
+		            return element;
+		    		
+		        }
+		    	else if(StringUtils.equals("joinApproval", style)){
+		    		String xpath="//div/label[2]/span[text()='公有群']";
+		    		WebElement element = findElement(driver, xpath,path);
+		            element.click();
+		            xpath="//div/label[2]/span[text()='审批']";
+		    	    element = findElement(driver, xpath,path);
+		            element.click();
+		            return element;
+		    	}
+		    	else if(StringUtils.equals("joinOpen", style)){
+		    		String xpath="//div/label[2]/span[text()='公有群']";
+		    		WebElement element = findElement(driver, xpath,path);
+		            element.click();
+		            xpath="//div/label[3]/span[text()='随便加']";
+		    	    element = findElement(driver, xpath,path);
+		            element.click();
+		            return element;
+		    	}
+		    	
+		    	else{
+		    		logger.info("you provide illegal argument exception! ");
+		    		throw new IllegalArgumentException();
+		    	}
+		    
+		    	
+		    }
 
 	public WebElement checkLogin(WebDriver driver) {
 		String xpath = "//div[@id='friends']";
@@ -147,7 +209,24 @@ public class WebIMTestBase {
 		}
 		return ele;
 	}
-
+	public  List<String> getGroupMembers(WebDriver driver,String groupID,String path){
+    	logger.info("find special group!");
+    	findSpecialGroup(driver,groupID,path);
+    	String xpath="//div[@class='webim-chatwindow ']/div[@class='webim-chatwindow-title']/i[@class='webim-down-icon font smallest  dib webim-down-icon']";
+    	WebElement element=findElement(driver,xpath,path);
+    	element.click();
+    	xpath="//*[@id='demo']/div/div/div[4]/div[@class='webim-chatwindow ']/ul[@class='webim-group-memeber']";
+    	element=findElement(driver,xpath,path);
+		List<WebElement> EleMemberList=element.findElements(By.xpath("//ul[@class='webim-group-memeber']/li"));
+		List<String> groupMembers=new ArrayList<>();
+        for (int i=0;i<EleMemberList.size();i++){
+        	logger.info("all member size {}",EleMemberList.size());
+        	//EleMemberList.get(i).findElement(By.xpath("//span[text()='"+member+"']"));
+        	String Member = EleMemberList.get(i).getText();
+        	groupMembers.add(Member);
+        	}
+        return groupMembers;
+    }
 	public void checkChatMsg(WebDriver driver, String username1, String username2, String msg, String path) {
 		Preconditions.checkArgument(null != driver, "webdriver was missing");
 		Preconditions.checkArgument(StringUtils.isNotBlank(username1) && StringUtils.isNotBlank(username2),
@@ -203,13 +282,20 @@ public class WebIMTestBase {
 	public void logout(WebDriver driver, String path) {
 		Preconditions.checkArgument(null != driver, "webdriver was missing");
 		logger.info("click logout button");
-		String xpath = "//ul[@class='webim-operations']/li[3]";
-		WebElement ele = findElement(driver, xpath, path);
-		ele.click();
-		sleep(1);
-		logger.info("find login button");
-		xpath = "//div[@class='webim-sign']/button[@class='webim-button bg-color']";
-		findElement(driver, xpath, path);
+		String xpath = SETTING_BUTTON_XPATH;
+        WebElement ele = findElement(driver, xpath,path);
+        ele.click();
+        String ifhide="//div[@class='webim-chat']/div[@class='webim-leftbar']/div/ul";
+        WebElement element = findElement(driver, ifhide,path);
+        if (element.getAttribute("class")=="webim-operations  hide"){
+        	ele.click();
+        }
+        //click logout button
+        xpath="//div/ul[@class='webim-operations']/li[4]";
+        element = findElement(driver, xpath,path);
+        element.click();
+        
+        findElement(driver, LOGIN_BUTTON_XPATH, path);
 	}
 
 	public String getPath(String path) {
@@ -261,15 +347,26 @@ public class WebIMTestBase {
 	public String getRandomStr(int count) {
 		return RandomStringUtils.randomAlphanumeric(count).toLowerCase();
 	}
+	public  WebElement findSpecialGroupName(WebDriver driver, String groupName,String path){
+    	Preconditions.checkArgument(null != driver, "webdriver was missing");
+		Preconditions.checkArgument(StringUtils.isNotBlank(groupName), "friend name was missing!");
+		String xpath = "//div[@id='groups']/i[@title='群组']";
+		WebElement element = findElement(driver, xpath,path);
+		element.click();
+		xpath = "//div[@class='webim-contact-info']/span[text()='" + groupName + "']";
+		element = findElement(driver, xpath,path);
+		element.click();
+		return element;
+	}
 	
 	public WebElement findSpecialGroup(WebDriver driver, String groupId, String path) {
 		Preconditions.checkArgument(null != driver, "webdriver was missing");
-		String xpath = "//div[@class='webim-leftbar']/div[3][@id='groups']";
+		String xpath = "//div[@class='webim-leftbar']/div[@id='groups']/i[@title='群组']";
 		WebElement ele = findElement(driver, xpath, path);
 		ele.click();
-		if (ele.getAttribute("class").equals("webim-contact-item")){
+		if (ele.getAttribute("class").equals("webim-leftbar-icon font small")){
 			ele.click();
-			sleep(1);
+			sleep(3);
 		}
 		if (StringUtils.isNotBlank(groupId)) {
 			logger.info("select group: {}", groupId);
@@ -281,10 +378,13 @@ public class WebIMTestBase {
 		ele = findElement(driver, xpath, path);
 		if (StringUtils.isNotBlank(ele.getAttribute("id"))) {
 			ele.click();
-			sleep(1);
+			sleep(3);
 		}
 		return ele;
 	}
+	
+	 	
+	    
 	
 	public WebElement findSpecialChatroom(WebDriver driver, String chatroomId, String path) {
 		Preconditions.checkArgument(null != driver, "webdriver was missing");
@@ -307,6 +407,16 @@ public class WebIMTestBase {
 			sleep(5);
 		}
 		return ele;
+	}
+	public void quitDriver(WebDriver driver){
+		logger.info("quit driver");
+		if (null != driver) {
+			try {
+				driver.quit();
+			} catch (Exception e) {
+				logger.error("Failed to quit driver2:", e);
+			}
+	    }
 	}
 	
 	public String getScreenshotPath(String name) {
