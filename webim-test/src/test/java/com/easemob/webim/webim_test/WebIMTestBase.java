@@ -3,6 +3,7 @@ package com.easemob.webim.webim_test;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.RandomStringUtils;
@@ -13,6 +14,8 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -30,7 +33,7 @@ public class WebIMTestBase {
     private static final String SETTING_BUTTON_XPATH = "//div[@class='webim-chat']/div[@class='webim-leftbar']/div/i[@class='webim-operations-icon font xsmaller']";
     private static final String RIGHT_SETTING_BUTTON_XPATH = "//div[@class='webim-chatwindow ']/div[2]/div/i[@class='webim-operations-icon font xsmaller']";
 	private static final Logger logger = LoggerFactory.getLogger(WebIMTestBase.class);
-
+	private static final long DEFAULT_TIMEOUT = 5L;
 	protected WebDriver driver;
 	protected String baseUrl;
 	protected String username;
@@ -209,24 +212,34 @@ public class WebIMTestBase {
 		}
 		return ele;
 	}
-	public  List<String> getGroupMembers(WebDriver driver,String groupID,String path){
-    	logger.info("find special group!");
+	public boolean findGroupMembers(WebDriver driver,String groupID,String path,List<String> members){
+		logger.info("find special group!");
     	findSpecialGroup(driver,groupID,path);
     	String xpath="//div[@class='webim-chatwindow ']/div[@class='webim-chatwindow-title']/i[@class='webim-down-icon font smallest  dib webim-down-icon']";
     	WebElement element=findElement(driver,xpath,path);
     	element.click();
-    	xpath="//*[@id='demo']/div/div/div[4]/div[@class='webim-chatwindow ']/ul[@class='webim-group-memeber']";
-    	element=findElement(driver,xpath,path);
-		List<WebElement> EleMemberList=element.findElements(By.xpath("//ul[@class='webim-group-memeber']/li"));
-		List<String> groupMembers=new ArrayList<>();
-        for (int i=0;i<EleMemberList.size();i++){
-        	logger.info("all member size {}",EleMemberList.size());
-        	//EleMemberList.get(i).findElement(By.xpath("//span[text()='"+member+"']"));
-        	String Member = EleMemberList.get(i).getText();
-        	groupMembers.add(Member);
+    	sleep(5);
+    	try{
+    		for (int i=0;i<members.size();i++){
+        		String member=members.get(i);
+        		xpath="//div[@class='webim-chatwindow ']/ul[@class='webim-group-memeber']/li/span[text()='"+member+"']";
+        		element=findElement(driver,xpath,path);
+        		logger.info("find group member {} success!",member);
         	}
-        return groupMembers;
-    }
+    	}
+    	catch(Exception e){
+    		logger.info("find group members failed!");
+    		return false;
+    	}
+    	finally{
+    		xpath="//div[@class='webim-chatwindow ']/div[@class='webim-chatwindow-title']/i[@class='webim-down-icon font smallest  dib webim-up-icon']";
+        	element=findElement(driver,xpath,path);
+        	element.click();
+    	}
+    	return true;
+    	}
+    	
+    
 	public void checkChatMsg(WebDriver driver, String username1, String username2, String msg, String path) {
 		Preconditions.checkArgument(null != driver, "webdriver was missing");
 		Preconditions.checkArgument(StringUtils.isNotBlank(username1) && StringUtils.isNotBlank(username2),
@@ -333,16 +346,31 @@ public class WebIMTestBase {
 		}
 		return element;
 	}
-
-	public WebElement findElement(WebDriver driver, String xpath, String path) {
+	 public static WebElement findElement(WebDriver driver, String xpath, long timeout) {
+	        if (Objects.isNull(driver) || StringUtils.isBlank(xpath)) {
+	            logger.error("findElement | Illegal arguments: driver: {}, xpath: {}", driver, xpath);
+	            throw new IllegalArgumentException("findElement | Illegal arguments");
+	        }
+	        ExpectedCondition<WebElement> ec = driv -> {
+	            return driv.findElement(By.xpath(xpath));
+	        };
+	        return new WebDriverWait(driver, timeout).until(ec);
+	    }
+	 
+	 public static WebElement findElement(WebDriver driver, String xpath, String path) {
+	        return findElement(driver, xpath, DEFAULT_TIMEOUT);
+	    }
+	 
+	/*public WebElement findElement(WebDriver driver, String xpath, String path) {
 		WebElement element = findElementByXpath(driver, xpath);
 		if (null == element) {
 			logger.error("Find element is null: xpath[{}]", xpath);
 			screenshot(driver, getPath(path));
+			
 		}
 		Assert.assertNotNull(element, "Find element with xpath[" + xpath + "]");
 		return element;
-	}
+	}*/
 
 	public String getRandomStr(int count) {
 		return RandomStringUtils.randomAlphanumeric(count).toLowerCase();
