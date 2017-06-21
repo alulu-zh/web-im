@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
+	
 	<groupId>com.easemob.webim</groupId>
 	<artifactId>webim-test</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -12,18 +12,13 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<selenium-version>2.53.1</selenium-version>
+		<selenium-version>3.0.1</selenium-version>
 		<testng-version>6.9.10</testng-version>
 		<logback-version>1.1.7</logback-version>
 		<slf4j-version>1.7.21</slf4j-version>
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>xml-apis</groupId>
-			<artifactId>xml-apis</artifactId>
-			<version>1.4.01</version>
-		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
@@ -33,12 +28,7 @@
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>${selenium-version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>xml-apis</groupId>
-					<artifactId>xml-apis</artifactId>
-				</exclusion>
-			</exclusions>
+			
 		</dependency>
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
@@ -107,7 +97,12 @@
 			<artifactId>guava</artifactId>
 			<version>18.0</version>
 		</dependency>
-
+					
+        <dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>1.4.01</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -115,6 +110,66 @@
 			<version>3.4</version>
 		</dependency>
 	</dependencies>
+	<profiles>
+        <profile>
+            <id>ebs</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                
+            </activation>
+            <properties>
+                <url.automation.environment>https://webim.easemob.com</url.automation.environment>
+                <resturl>http://a1.easemob.com/</resturl>
+                <appkey>easemob-demo/chatdemoui</appkey>
+                <token>Bearer  YWMt-tILkkm8Eeeo5ZvZyexWfgAAAAAAAAAAAAAAAAAAAAGP-MBq3AgR45fkRZpPlqEwAQMAAAFcdxApYwBPGgAeX27PazUeT37yYzQY1tP2p6aYVMgqls5lmPo_XjF53Q</token>
+            </properties>
+        </profile>
+        <profile>
+            <id>aws</id>
+            <properties>
+             	<url.automation.environment>http://webim-pro4.easemob.com</url.automation.environment>          
+                <resturl>http://a1-pro4.easemob.com/</resturl>
+                <appkey>easemob-demo/chatdemoui</appkey>
+                <token>Bearer YWMttmMWcELUEee4X_s7YL9thAAAAV1-yTUdPSvYcjLB9od657xeVZBEoh5Hl6E</token>
+            </properties>
+        </profile>
+         <profile>
+            <id>vip1</id>
+            <properties>
+             	<url.automation.environment>https://webim-vip1.easemob.com</url.automation.environment> 
+                <resturl>http://a1-vip1.easemob.com/</resturl>
+                <appkey>easemob-demo/chatdemoui</appkey>
+                <token>Bearer YWMtF_IC3EnfEeevq7nTB-Fp5QAAAV2s7UrM8Qu9dra95Ut9As8Zhj4kkb1jHTU</token>
+            </properties>
+        </profile>
+        <profile>
+            <id>vip5</id>
+            <properties>
+             	<!-- <url.automation.environment>http://webim-pro4.easemob.com</url.automation.environment>-->  
+                <resturl>http://a1-vip5.easemob.com/</resturl>
+                <appkey>easemob-demo/chatdemoui</appkey>
+                <token>Bearer YWMt1g38XkwsEee_t8nICq6GdQAAAAAAAAAAAAAAAAAAAAEQ9tSAuFkR5aTJWWIOBU6WAQMAAAFchwiquABPGgAU3TsKBqL-90D0SCFuUWdotDDYYtkOibCKB13v-ShxMQ</token>
+            </properties>
+        </profile>
+        <profile>
+            <id>vip6</id>
+            <properties>
+             	<!-- <url.automation.environment>http://webim-pro4.easemob.com</url.automation.environment>-->  
+                <resturl>http://a1-vip6.easemob.com/</resturl>
+                <appkey>easemob-demo/chatdemoui</appkey>
+                <token>Bearer YWMtmd5ccDrTEee2n-nDFhjBBQAAAV1KVCao-sH4rR34f5V67EEOdApBG-SZ2zA</token>
+            </properties>
+        </profile>
+        <profile>
+            <id>k8s</id>
+            <properties>
+             	<!-- url.automation.environment>https://webimk8s-pro4.easemob.com</url.automation.environment> -->
+                <resturl>http://118.193.28.212:31080/</resturl>
+                <appkey>easemob-demo/chatdemoui</appkey>
+                <token>Bearer YWMt36LYAEHKEeeaYfHBn3KNXQAAAV13-wGAALEi1sK3m5e6P7l-r2XSpikRm98</token>
+            </properties>
+        </profile>
+    </profiles>
 	<build>
 		<plugins>
 			<plugin>
@@ -126,15 +181,29 @@
 					<!--useSystemClassLoader>true</useSystemClassLoader -->
 					<!--testFailureIgnore>true</testFailureIgnore -->
 					<parallel>false</parallel>
+					<!--groups>friend_test</groups>  -->
+					<!-- classes>
+						<class>FirefoxTests</class>
+					</classes> -->
 					<!--forkMode>never,once,always,pertest</forkMode -->
 					<!-- <forkMode>always</forkMode> <parallel>classes/methods/both</parallel> 
 						<threadCount>4</threadCount> -->
-					<!-- <suiteXmlFiles> <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile> 
-						</suiteXmlFiles> -->
+					<suiteXmlFiles> 
+						<suiteXmlFile>src/main/resources/testng.xml</suiteXmlFile>  
+						</suiteXmlFiles>
 					<systemPropertyVariables>
-						<INTERNAL_BASE_URL>https://webim.sandbox.easemob.com/index.html</INTERNAL_BASE_URL>
-						<INTERNAL_USER_NAME>sdb001</INTERNAL_USER_NAME>
-						<INTERNAL_USER_PASSWORD>asd</INTERNAL_USER_PASSWORD>
+						<INTERNAL_BASE_URL>C:\\Users\\gaozhq\\Downloads\\web-im各版本\\web-im-1.4.8-vip6\\web-im\\index.html</INTERNAL_BASE_URL>
+						<BASE_URL>${url.automation.environment}</BASE_URL>
+						<GROUPTEST_USER_NAME>${groupTest_username}</GROUPTEST_USER_NAME>
+						<INTERNAL_USER_NAME>${username}</INTERNAL_USER_NAME>
+						<INTERNAL_USER_PASSWORD>${password}</INTERNAL_USER_PASSWORD>
+						<INTERNAL_FRIEND>${friend}</INTERNAL_FRIEND>
+						<INTERNAL_FRIEND_GROUPTEST>${friend_group}</INTERNAL_FRIEND_GROUPTEST>>
+						<INTERNAL_ADDGROUPMEMBER>${groupmember_toadd}</INTERNAL_ADDGROUPMEMBER>
+						<TOKEN>${token}</TOKEN>
+						<REST_URL>${resturl}</REST_URL>
+						<APPKEY>${appkey}</APPKEY>>
+						 <environment></environment>
 						<INTERNAL_USER_TOKEN></INTERNAL_USER_TOKEN>
 					</systemPropertyVariables>
 				</configuration>

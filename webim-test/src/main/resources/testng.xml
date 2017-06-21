@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>  
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="WebIM_Base_Test">
-	<test name="WebIM_Base_Test_on_Firefox">
+<suite name="WebIM_Base_Test" parallel="classes"  configfailurepolicy="continue" thread-count="12" skipfailedinvocationcounts="true">
+
+	<test  name="WebIM_Base_Test_SingleTest">
 		<classes>
-			<class name="com.easemob.webim.webim_test.FirefoxTest" /> <!-- 包.类名的方式调用，针对用package来管理的测试用例文件 -->
+			<class name="com.easemob.webim.TestCases.RegisterTest"/>
+			<class name="com.easemob.webim.TestCases.AddFriendTest"/>
+			<class name="com.easemob.webim.TestCases.SingleMessageTest"/>
+			<class name="com.easemob.webim.TestCases.FriendBlacklistTest"/>	
 		</classes>
 	</test>
+	
+	<test  name="WebIM_Base_Test_GroupTest">
+		<classes>
+			<class name="com.easemob.webim.TestCases.ChatroomMessageTest"/>
+			<class name="com.easemob.webim.TestCases.GroupBlacklistTest"/>
+			<class name="com.easemob.webim.TestCases.CreateGroupTest"/>
+			<class name="com.easemob.webim.TestCases.AddGroupMemberTest"/>
+			<class name="com.easemob.webim.TestCases.SetGroupManagerTest"/>
+			<class name="com.easemob.webim.TestCases.ApplyJoinGroupTest"/>
+			<class name="com.easemob.webim.TestCases.MuteGroupMemberTest"/>
+			<class name="com.easemob.webim.TestCases.QuitDestroyUpdateGroupTest"/>
+			<class name="com.easemob.webim.TestCases.GroupMessageTest"/>
+			
+		</classes>
+	</test>	
 </suite>   

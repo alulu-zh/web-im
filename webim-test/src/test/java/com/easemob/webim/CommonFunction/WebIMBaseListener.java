@@ -1,4 +1,4 @@
-package com.easemob.webim.webim_test;
+package com.easemob.webim.CommonFunction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +44,7 @@ public class WebIMBaseListener implements ITestListener {
 
 	@Override
 	public void onFinish(ITestContext context) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
