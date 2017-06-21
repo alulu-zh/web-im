@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<testdata>
+	<joingroup>
+		<username>usernamepublicgroup</username>
+		<password>asd</password>
+		<friend>usernamejoingroup</friend>
+		<groupname>publicgroupname</groupname>
+	</joingroup>
+</testdata>

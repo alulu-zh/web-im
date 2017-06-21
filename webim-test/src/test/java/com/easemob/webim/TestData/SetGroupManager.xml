@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<testdata>
+	<groupmanager>
+		<username>usernamegroupmanager</username>
+		<password>asd</password>
+		<friend>usernametobegroupmanager</friend>
+		<groupname>groupmanagergroup</groupname>
+	</groupmanager>
+</testdata>

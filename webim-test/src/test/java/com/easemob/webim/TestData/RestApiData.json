@@ -1,0 +1,103 @@
+{"RegisterData":
+ [
+  {"username":"usernameregistertest", "password":"asd"}
+ ]
+,
+"LoginData":
+ [
+  {"username":"usernamelogin", "password":"asd"}
+ ]
+ ,
+ "AddFriendData":
+ [
+   {"username":"usernameaddfriend", "password":"asd"},
+   {"username":"usernamefriend", "password":"asd"}
+ ]
+ ,
+  "FriendBlacklistData":
+ [
+   {"username":"usernameblacklist", "password":"asd"},
+   {"username":"usernametoblacklist", "password":"asd"}
+ ]
+ ,
+  "SingleMessageData":
+ [
+   {"username":"usernamesendmessage", "password":"asd"},
+   {"username":"usernamereceivemessage", "password":"asd"}
+ ]
+ ,
+  "SingleImgMessageData":
+ [
+   {"username":"usernamesendimgmessage", "password":"asd"},
+   {"username":"usernamereceiveimgmessage", "password":"asd"}
+ ]
+ ,
+  "SingleAudioMessageData":
+ [
+   {"username":"usernamesendaudiomessage", "password":"asd"},
+   {"username":"usernamereceiveaudiomessage", "password":"asd"}
+ ]
+ ,
+ "QuitDestroyUpdateData":
+  [
+   {"username":"usernameowner", "password":"asd"},
+   {"username":"usernamemember","password":"asd"},
+   {"groupname":"group_test_destroy","desc":"rest create group","public":true,"maxusers":60,"approval":true,"owner":"usernameowner","members":["usernamemember"]}
+  ]
+ ,
+ "CreateGroupData":
+  [
+   {"username":"usernamecreategroup", "password":"asd"},
+   {"username":"usernamewithgroupmember","password":"asd"}
+  ]
+  ,
+  "GroupMessageData":
+  [
+   {"username":"usernamegroupmessage", "password":"asd"},
+   {"username":"usernamereceivegroupmessage","password":"asd"},
+   {"groupname":"newgrouptestmessage","desc":"rest create group","public":true,"maxusers":60,"approval":true,"owner":"usernamegroupmessage","members":["usernamereceivegroupmessage"]}
+  ]
+  ,
+  "AddGroupMemberData":
+  [
+   {"username":"usernameaddgroupmember", "password":"asd"},
+   {"username":"usernamegroupmember","password":"asd"},
+   {"username":"usernamenewgroupmember","password":"asd"},
+   {"groupname":"groupaddgroupmember","desc":"rest create group","public":true,"maxusers":60,"approval":true,"owner":"usernameaddgroupmember","members":["usernamegroupmember"]}
+  ]
+  ,
+   "GroupBlacklistData":
+  [
+   {"username":"usernamegroupblacklist", "password":"asd"},
+   {"username":"usernameblacklist","password":"asd"},
+   {"groupname":"groupblacklist","desc":"rest create group","public":true,"maxusers":60,"approval":true,"owner":"usernamegroupblacklist","members":["usernameblacklist"]}
+  ]
+  ,
+  "GroupManagerData":
+  [
+   {"username":"usernamegroupmanager", "password":"asd"},
+   {"username":"usernametobegroupmanager","password":"asd"},
+   {"groupname":"groupmanagergroup","desc":"rest create group","public":true,"maxusers":60,"approval":true,"owner":"usernamegroupmanager","members":["usernametobegroupmanager"]}
+  ]
+  ,
+  "MuteGroupMember":
+  [
+   {"username":"usernamemutegroupmanager", "password":"asd"},
+   {"username":"usernametobemutegroupmanager","password":"asd"},
+   {"groupname":"mutegroupmanager","desc":"rest create group","public":true,"maxusers":60,"approval":true,"owner":"usernamemutegroupmanager","members":["usernametobemutegroupmanager"]}
+  ]
+  ,
+  "JoinPublicGroupData":
+  [
+   {"username":"usernamepublicgroup", "password":"asd"},
+   {"username":"usernamejoingroup","password":"asd"},
+   {"groupname":"publicgroupname","desc":"rest create  public group","public":true,"maxusers":60,"approval":true,"owner":"usernamepublicgroup"}
+  ]
+  ,
+  "ChatroomMessageData":
+  [
+   {"username":"usernamechatroommessage", "password":"asd"},
+   {"username":"usernamereceivechatroommessage","password":"asd"},
+   {"name":"newchatroomtestmessage","desc":"rest create chatroom","maxusers":60,"owner":"usernamechatroommessage","members":["usernamereceivechatroommessage"]}
+  ]
+ }

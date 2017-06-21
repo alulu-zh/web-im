@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<testdata>
+	<QuitDestroyUpdate>
+		<username>usernameowner</username>
+		<password>asd</password>
+		<friend>usernamemember</friend>
+		<groupname>group_test_destroy</groupname>
+	</QuitDestroyUpdate>
+</testdata>

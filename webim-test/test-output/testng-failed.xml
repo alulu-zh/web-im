@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
+  <test name="Default test(failed)">
+    <classes>
+      <class name="com.easemob.webim.TestCases.SingleMessageTest">
+        <methods>
+          <include name="receiveOffLineMsg"/>
+          <include name="sendOffLineMsg"/>
+          <include name="sendOnLineMsg"/>
+          <include name="receiveOnLineMsg"/>
+          <include name="setup"/>
+          <include name="teardown"/>
+          <include name="sendRestMessage"/>
+        </methods>
+      </class> <!-- com.easemob.webim.TestCases.SingleMessageTest -->
+    </classes>
+  </test> <!-- Default test(failed) -->
+</suite> <!-- Failed suite [Default suite] -->

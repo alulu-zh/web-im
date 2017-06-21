@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<testdata>
+	<login name="data about register">
+		<username>usernamelogin</username>
+		<password>asd</password>
+	</login>
+</testdata>

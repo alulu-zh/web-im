@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<testdata>
+	<addgroupmember>
+		<username>usernameaddgroupmember</username>
+		<password>asd</password>
+		<friend>usernamenewgroupmember</friend>
+		<groupname>groupaddgroupmember</groupname>
+	</addgroupmember>
+</testdata>

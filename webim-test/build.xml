@@ -1,0 +1,17 @@
+<project name="webim-test" basedir=".">
+	<property name="base.dir" value="C:/Users/gaozhq/workspace/web-im/webim-test"/>
+	<property name="lib.dir" value="${base.dir}/lib"/>
+	<property name="testng.output.dir" value="${base.dir}/target/surefire-reports"/>
+	<property name="testng.file.dir" value="${base.dir}/src/main/resources"/>
+	<path id= "test.classpath">
+	    <fileset dir= "${lib.dir}" includes= "*.jar" />
+	</path>
+	
+	<target name= "test-output" >
+	    <xslt in= "${testng.output.dir}/testng-results.xml" style= "${testng.output.dir}/testng-results.xsl"
+	      out= "${base.dir}/test-output/result.html " >
+	          <param name= "testNgXslt.outputDir" expression= "C:/Users/gaozhq/workspace/web-im/webim-test/test-output/" />
+	           <classpath refid= "test.classpath" />
+	     </xslt>
+	</target> 
+</project>

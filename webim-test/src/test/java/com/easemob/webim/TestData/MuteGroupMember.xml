@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<testdata>
+	<mutegroupmember>
+		<username>usernamemutegroupmanager</username>
+		<password>asd</password>
+		<friend>usernametobemutegroupmanager</friend>
+		<groupname>mutegroupmanager</groupname>
+	</mutegroupmember>
+</testdata>

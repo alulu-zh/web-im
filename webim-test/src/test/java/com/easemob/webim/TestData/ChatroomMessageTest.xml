@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<testdata>
+	<chatroommessage>
+		<username>usernamechatroommessage</username>
+		<password>asd</password>
+		<friend>usernamereceivechatroommessage</friend>
+		<groupname>newchatroomtestmessage</groupname>
+	</chatroommessage>
+</testdata>
